@@ -3,22 +3,18 @@ from sys import stdin
 
 n, m = map(int, stdin.readline().split())
 tree = sorted(list(map(int, stdin.readline().split())))
+start, end = 1, max(tree)
 
-from bisect import bisect_left
-h = 0
+while start <= end:
+    mid = int((start+end)/2)
 
-while h <= max(tree):
-    start = bisect_left(tree, h)
-    l = sum(list(map(lambda x: x-h, tree[start:])))
-    # for i in tree[start:]:
-    #     l += i-h
-    if l == m:
-        print(h)
-        break
-    elif l < m:
-        print(h-1)
-        break
+    l = 0
+    for i in tree:
+        if i >= mid:
+            l += i-mid
+    if l >= m:
+        start = mid+1
     else:
-        h += 1
+        end = mid-1
 
-    # print(start, h, l)
+print(end)
